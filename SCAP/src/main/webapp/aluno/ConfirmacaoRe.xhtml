@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>SAI 2018</title>
+    </h:head>
+
+    <ui:composition template="/templateInscricao.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateAlunoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+
+            <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+            <p:outputLabel value="*Aviso: O comprovante de matricula será enviado para o email cadastrado" style="color: #D20005"/>
+            <br/>                        
+            <p:panel style=" width:100%" id="comprovante">
+                <h2 align="center">Comprovante de Inscrição </h2>                 
+                <b> <p:outputLabel value="Nome: " for="nome"/></b>
+                <p:outputLabel id="nome" value="#{alunoController.selected.nome}" /> <br />
+
+                <b> <p:outputLabel value="RA: " for="ra"/></b>
+                <p:outputLabel id="ra" value="#{alunoController.selected.ra}" /> <br /> 
+
+                <b><p:outputLabel value="CPF: " for="cpf"/></b>
+                <p:outputLabel id="cpf" value="#{alunoController.selected.cpf}" /> <br />
+
+                <b>    <p:outputLabel value="Curso: " for="curso"/></b>                
+                <p:outputLabel id="curso" value="#{alunoController.selected.curso}" /><br />
+
+                <b>  <p:outputLabel value="Email: " for="email"/></b>
+                <p:outputLabel id="email" value="#{alunoController.selected.email}" /> <br />
+                <br/>
+                <br/>
+                <p:outputLabel value="Eventos da SAI são acresentados automaticamente e se encontram destacado na tabela" style="color: #D20005"/>
+                <p:dataTable id="tabela" value="#{alunoController.eventosSelecionados}" var="item" rows="30"
+                             rowStyleClass="#{item.idevento.curso eq 'SAI' ? 'SAI' : null}" paginator="true" rowIndexVar="rowIndex">
+                    <p:column headerText="Tipo" filterBy="#{item.idevento.tipo}" filterStyle="display:none">
+                        <p:outputLabel value="#{item.idevento.tipo}"/>
+                    </p:column>
+                    <p:column headerText="Curso" >
+                        <p:outputLabel value="#{item.idevento.nome}"/>
+                    </p:column>
+                    <p:column headerText="Local">
+                        <p:outputLabel value="#{item.idevento.idlocal.sala}"/>
+                    </p:column>
+                    <p:column headerText="Data">
+                        <p:outputLabel value="#{item.data}">
+                            <f:convertDateTime timeStyle="dd/MM/yyyy"/>
+                        </p:outputLabel>
+                    </p:column>
+                    <p:column headerText="Hora Inicio">
+                        <p:outputLabel value="#{item.idevento.horaInicio}">
+                            <f:convertDateTime type="date" pattern="HH:mm" timeZone="GMT-3"  locale="pt_BR"/>
+                        </p:outputLabel>
+                    </p:column>
+                    <p:column headerText="Hora Termino">      
+                        <p:outputLabel value="#{item.idevento.horaTermino}">
+                            <f:convertDateTime type="date" pattern="HH:mm" timeZone="GMT-3"  locale="pt_BR"/>
+                        </p:outputLabel>
+                    </p:column>
+                    <p:column headerText="Valor">      
+                        <p:outputLabel value="#{item.idevento.custo}">
+                            <f:convertNumber currencySymbol="R$" minFractionDigits="2" type="currency"/>
+                        </p:outputLabel>
+                    </p:column>
+                    <f:facet name="footer">
+                        <p:outputLabel value="Quantidade de cursos: " />                                                                
+                        <p:outputLabel id="qtde" value="#{alunoController.quantidadeSelecionados}"/>
+                        <br/>
+                        <br/>
+                        <p:outputLabel value="Valor Total: " />
+                        <p:outputLabel id="totalValue" value="#{alunoController.valorTotalSelecionados}"/>
+                    </f:facet>
+                </p:dataTable>
+            </p:panel>
+            <br/>
+
+
+            <h:form >
+                <h:panelGrid width="100%" columns="2">  
+                    <p:commandButton action="Recadastrar.xhtml"  value="Voltar" image="ui-icon-arrow-1-w" style="text-align: left!important" />
+                    <p:commandButton action="#{alunoController.salvando()}"  value="Matricular" image="ui-icon-disk" style="text-align: center!important">
+                        <p:confirm header="Confimação" message="Confirmar matricula?"
+                                   icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" style="text-align: center">
+                        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" action="#{eventoController.cancelSelected()}" />
+                    </p:confirmDialog>
+                </h:panelGrid>
+            </h:form>
+
+            <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+
+            <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                <h:graphicImage  value="#{resource['img:gif-load.gif']}" library="img" name="gif-load.gif"/>
+            </p:dialog>
+        </ui:define>
+    </ui:composition>
+
+</html>
+

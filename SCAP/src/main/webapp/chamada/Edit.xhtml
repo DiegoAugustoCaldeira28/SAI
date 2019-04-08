@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditChamadaTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditChamadaLabel_idchamada}" for="idchamada" />
+                    <h:inputText id="idchamada" value="#{chamadaController.selected.idchamada}" title="#{bundle.EditChamadaTitle_idchamada}" required="true" requiredMessage="#{bundle.EditChamadaRequiredMessage_idchamada}"/>
+                    <h:outputLabel value="#{bundle.EditChamadaLabel_presente}" for="presente" />
+                    <h:inputText id="presente" value="#{chamadaController.selected.presente}" title="#{bundle.EditChamadaTitle_presente}" />
+                    <h:outputLabel value="#{bundle.EditChamadaLabel_idaluno}" for="idaluno" />
+                    <h:selectOneMenu id="idaluno" value="#{chamadaController.selected.idaluno}" title="#{bundle.EditChamadaTitle_idaluno}" required="true" requiredMessage="#{bundle.EditChamadaRequiredMessage_idaluno}">
+                        <f:selectItems value="#{alunoController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.EditChamadaLabel_iddataEvento}" for="iddataEvento" />
+                    <h:selectOneMenu id="iddataEvento" value="#{chamadaController.selected.iddataEvento}" title="#{bundle.EditChamadaTitle_iddataEvento}" required="true" requiredMessage="#{bundle.EditChamadaRequiredMessage_iddataEvento}">
+                        <f:selectItems value="#{dataEventoController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <h:commandLink action="#{chamadaController.update}" value="#{bundle.EditChamadaSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditChamadaViewLink}"/>
+                <br />
+                <h:commandLink action="#{chamadaController.prepareList}" value="#{bundle.EditChamadaShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditChamadaIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

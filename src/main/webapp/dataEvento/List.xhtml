@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/templateEvento.xhtml">
+        <ui:define name="title">
+            <h:outputText value="Listar Eventos por Data"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form" id="DataEventoFormList" style="text-align: center" rendered="#{dataEventoController.usuarioLogado}">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <p:dataTable id="tabela" value="#{dataEventoController.items}"
+                             var="item" emptyMessage="Nenhum registro incluido."
+                             paginator="true" rows="10"
+                             rowKey="#{item.iddataevento}"
+                             widgetVar="tabelaDataEventos"
+                             filteredValue="#{dataEventoController.dataEventosFiltrados}"
+                             >
+                    <p:ajax event="filter" global="false"/>
+                    <f:facet name="header">
+                        <p:outputPanel>
+                            <p:inputText id="globalFilter" 
+                                         onkeyup="PF('tabelaDataEventos').filter()" 
+                                         style="width:200px" placeholder="Palavra Chave"
+                                         />
+                        </p:outputPanel>
+                    </f:facet>
+                    <p:column 
+                        filterBy="#{item.data}" filterStyle="display:none">
+                        <f:facet name="header">
+                            <p:outputLabel value="Data:"/>
+                        </f:facet>
+                        <p:outputLabel value="#{item.data}">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </p:outputLabel>
+                    </p:column>                                                                                    
+                    <p:column filterBy="#{item.idevento.nome}" filterStyle="display:none">
+                        <f:facet name="header">
+                            <p:outputLabel value="Evento:"/>
+                        </f:facet>
+                        <p:outputLabel value="#{item.idevento.nome}"/>
+                    </p:column >                                                 
+                    <p:column style="width: 25px;">
+                        <p:commandButton ajax="true" actionListener="#{dataEventoController.editar(item)}" 
+                                         oncomplete="PF('DataEventoEditDialog').show()"
+                                         update=":DataEventoEditDialog"
+                                         image="ui-icon-pencil"
+                                         title="Editar"/>
+                    </p:column >
+                    <p:column style="width: 25px; text-align: center;">
+                        <p:commandButton ajax="true" 
+                                         actionListener="#{dataEventoController.destroy(item)}" 
+                                         image="ui-icon-trash"
+                                         update="@form"
+                                         title="Excluir">
+                            <p:confirm header="Confimação" message="Tem certeza que deseja excluir?"
+                                       icon="ui-icon-alert"/>
+                        </p:commandButton>
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" style="text-align: center">
+                            <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" title="Sim" />
+                            <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" title="Não" action="#{dataEventoController.cancelSelected()}"/>
+                        </p:confirmDialog>
+                    </p:column>
+                </p:dataTable>
+
+            </h:form>
+            <ui:include src="Edit.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
+</html>

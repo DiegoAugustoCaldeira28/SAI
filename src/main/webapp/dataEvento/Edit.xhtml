@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="DataEventoEditDialog" widgetVar="DataEventoEditDialog" modal="true" resizable="false"
+                  appendTo="@(body)" header="Editar Data do Evento">
+            <h:form id="DataEventoEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{dataEventoController.selected != null}" styleClass="borderNone">
+                        <h:outputLabel value="Data do evento:" for="data" />
+                        <p:calendar id="data" pattern="dd/MM/yyyy" value="#{dataEventoController.selected.data}" 
+                                    title="Data do evento" mask="true" showOn="button">
+                            
+                        </p:calendar>                                                        
+                        <h:outputLabel value="Evento:" for="idevento" />
+                        <p:selectOneMenu id="idevento" value="#{dataEventoController.selected.idevento}"  required="true" 
+                                         requiredMessage="Escolha um evento!" filter="true">
+                            <f:selectItem itemLabel="Selecione" itemValue="" noSelectionOption="true" />
+                            <f:selectItems value="#{eventoController.itemsAvailableSelectOne}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <h:panelGrid width="100%" style="text-align: center" columns="2">
+                        <p:commandButton actionListener="#{dataEventoController.update}" 
+                                         value="Salvar" update="display,:DataEventoFormList:tabela" oncomplete="PF('DataEventoEditDialog').hide()"
+                                         title="Salvar"
+                                         />
+                        <p:commandButton value="Cancelar" onclick="DataEventoEditDialog.hide()" action="#{dataEventoController.cancelSelected()}" title="Cancelar"/>
+                    </h:panelGrid>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+
+</html>

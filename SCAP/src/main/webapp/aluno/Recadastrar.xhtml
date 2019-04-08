@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+    <ui:composition template="/templateInscricao.xhtml">
+
+        <ui:define name="body">
+            <div class="box">
+
+                <h:form class="createForm" id="f" acceptcharset="ISO-8859-1" rendered="#{alunoController.usuarioLogado}">
+                    <p:fieldset legend="Recadastrar Participante" toggleable="true" toggleSpeed="500">                                                                                                
+                        <p:panelGrid  columns="2" styleClass="borderNone" id="panelaluno">                            
+                            <p:outputLabel value="#{bundle.CreateAlunoLabel_nome}" for="cpf" />
+                            <p:selectOneMenu id="cpf" value="#{alunoController.selected.cpf}"
+                                             style="width:400px;"                                             
+                                             filter="true"
+                                             valueChangeListener="#{alunoController.carregaCursos}"                                             
+                                             >
+                                <f:selectItem itemLabel="Selecione" itemValue="" noSelectionOption="true" />
+                                <f:selectItems value="#{alunoController.alunosOrdenado}" var="item" itemValue="#{item.cpf}" />
+                                <p:ajax event="change" update="tabela curso" oncomplete="limpa()" />
+                            </p:selectOneMenu> 
+                            <p:outputLabel value="" />
+                            <p:outputLabel value="" />
+                            <p:outputLabel value="Curso: " for="curso" />
+                            <p:selectOneMenu value="#{alunoController.selected.curso}" 
+                                             id="curso"                                              
+                                             valueChangeListener="#{alunoController.carregaCursos}"
+                                             style="width:400px"
+                                             >
+                                <f:selectItem itemLabel="Selecione" itemValue="" noSelectionOption="true" />
+                                <f:selectItem itemLabel="BACHARELADO EM CIÊNCIA DA COMPUTAÇÃO" itemValue="BACHARELADO EM CIENCIA DA COMPUTACAO" />
+                                <f:selectItem itemLabel="ENGENHARIA DE PRODUÇÃO" itemValue="ENGENHARIA DE PRODUCAO" />
+                                <f:selectItem itemLabel="ENGENHARIA ELETRÔNICA" itemValue="ENGENHARIA ELETRONICA" />
+                                <f:selectItem itemLabel="ENGENHARIA MECÂNICA" itemValue="ENGENHARIA MECANICA" />
+                                <f:selectItem itemLabel="ENGENHARIA QUÍMICA" itemValue="ENGENHARIA QUIMICA" />
+                                <f:selectItem itemLabel="ENGENHARIA DE BIOPROCESSOS E BIOTECNOLOGIA" itemValue="ENGENHARIA DE BIOPROCESSOS E BIOTECNOLOGIA" />                                
+                                <f:selectItem itemLabel="LICENCIATURA EM CIÊNCIAS NATURAIS" itemValue="LICENCIATURA EM CIENCIAS NATURAIS"/>
+                                <f:selectItem itemLabel="LICENCIATURA EM CIÊNCIAS BIOLÓGICAS" itemValue="LICENCIATURA EM CIENCIAS BIOLOGICAS"/>
+                                <f:selectItem itemLabel="TECNOLOGIA EM ALIMENTOS" itemValue="TECNOLOGIA EM ALIMENTOS"/>
+                                <f:selectItem itemLabel="TECNOLOGIA EM ANÂLISE DESEN. DE SISTEMAS" itemValue="TECNOLOGIA EM ANALISE DESEN. DE SISTEMAS"/>
+                                <f:selectItem itemLabel="TECNOLOGIA EM AUTOMAÇÃO INDUSTRIAL" itemValue="TECNOLOGIA EM AUTOMACAO INDUSTRIAL"/>
+                                <f:selectItem itemLabel="TECNOLOGIA EM FABRICAÇÃO MECÂNICA" itemValue="TECNOLOGIA EM FABRICACAO MECANICA"/>
+                                <f:selectItem itemLabel="Outro" itemValue="Outro" />
+                                <p:ajax event="change" update="tabela" oncomplete="limpa()" />
+                            </p:selectOneMenu>
+                            <p:message for="curso" id="escrevacurso" />
+                        </p:panelGrid>
+                    </p:fieldset>   
+                    <br/>
+                    <h:panelGroup rendered="#{eventoController.items.rowCount > 0}">
+                        <p:remoteCommand id="limpaFiltro" name="limpa" oncomplete="PF('tabelaEventos').clearFilters()" />
+                        <p:dataTable id="tabela" value="#{alunoController.todosDatasEventos}" var="item" 
+                                     emptyMessage="Nenhum registro incluido." paginator="true" rows="30"
+                                     selection="#{alunoController.eventosSelecionados}"
+                                     rowKey="#{item.iddataEvento}"
+                                     stickyHeader="false"
+                                     style="margin-bottom:20px"
+                                     filteredValue="#{alunoController.eventosFiltrados}"
+                                     widgetVar="tabelaEventos"
+                                     disabledSelection="#{item.idevento.vagasTotais == 0}"
+                                     >
+                            <p:ajax event="filter" global="false"/>
+                            <f:facet name="header">
+                                <p:outputPanel>
+                                    <p:inputText id="globalFilter" 
+                                                 onkeyup="PF('tabelaEventos').filter()" 
+                                                 style="width:200px" placeholder="Palavra Chave"
+                                                 />
+                                </p:outputPanel>
+                            </f:facet>
+                            <p:ajax event="rowSelect"  update="tabela:qtde tabela:totalValue"/>
+                            <p:ajax event="rowUnselect"  update="tabela:qtde tabela:totalValue"/>
+                            <p:ajax event="rowSelectCheckbox"  update="tabela:qtde tabela:totalValue"/>
+                            <p:ajax event="rowUnselectCheckbox"  update="tabela:qtde tabela:totalValue"/>
+                            <p:ajax event="toggleSelect"  update="tabela:qtde tabela:totalValue"/>
+                            <p:column headerText="Curso" filterBy="#{item.idevento.curso}" filterStyle="display:none">
+                                <p:outputLabel value="#{item.idevento.curso}"/>
+                            </p:column>
+                            <p:column headerText="Evento" filterBy="#{item.idevento.nome}" filterStyle="display:none">
+                                <p:outputLabel value="#{item.idevento.nome}"/>
+                            </p:column>
+                            <p:column headerText="Tipo" filterBy="#{item.idevento.tipo}" filterStyle="display:none">
+                                <p:outputLabel value="#{item.idevento.tipo}"/>
+                            </p:column>
+                            <p:column headerText="Local" filterBy="#{item.idevento.idlocal.sala}" filterStyle="display:none">
+                                <p:outputLabel value="#{item.idevento.idlocal.sala}"/>
+                            </p:column>
+                            <p:column headerText="Data" filterBy="#{item.data}" filterStyle="display:none">      
+                                <p:outputLabel value="#{item.data}">
+                                    <f:convertDateTime type="date" pattern="dd/MM/yyyy" timeZone="GMT-3"  locale="pt_BR"/>
+                                </p:outputLabel>
+
+                            </p:column>
+                            <p:column headerText="Hora Inicio" filterBy="#{item.idevento.horaInicio}" filterStyle="display:none">
+                                <p:outputLabel value="#{item.idevento.horaInicio}">
+                                    <f:convertDateTime type="date" pattern="HH:mm" timeZone="GMT-3"  locale="pt_BR"/>
+                                </p:outputLabel>
+                            </p:column>
+                            <p:column headerText="Hora Termino" filterBy="#{item.idevento.horaTermino}" filterStyle="display:none">      
+                                <p:outputLabel value="#{item.idevento.horaTermino}">
+                                    <f:convertDateTime type="date" pattern="HH:mm" timeZone="GMT-3"  locale="pt_BR"/>
+                                </p:outputLabel>
+                            </p:column>
+                            <p:column headerText="Valor" filterBy="#{item.idevento.custo}" filterStyle="display:none">      
+                                <p:outputLabel value="#{item.idevento.custo}">
+                                    <f:convertNumber currencySymbol="R$" minFractionDigits="2" type="currency"/>
+                                </p:outputLabel>
+                            </p:column>
+                            <p:column headerText="Vagas Totais" filterBy="#{item.idevento.vagasTotais}" filterStyle="display:none">      
+                                <p:outputLabel  value="#{item.idevento.vagasTotais}" rendered="#{alunoController.isEspera(item)}"/>
+                                <p:outputLabel value="Encerrado"
+                                               rendered="#{!alunoController.isEspera(item)}"
+                                               style="color: #D20005;"
+                                               />
+                            </p:column>
+
+                            <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+                            <f:facet name="footer" id="footer">
+
+                                <p:outputLabel value="Quantidade de cursos: " />                                                                
+                                <p:outputLabel id="qtde" value="#{alunoController.quantidadeSelecionados}"/>
+                                <br/>
+                                <br/>
+                                <p:outputLabel value="Valor Total: " />
+                                <p:outputLabel id="totalValue" value="#{alunoController.valorTotalSelecionados}"/>
+
+                            </f:facet>
+                        </p:dataTable>
+                    </h:panelGroup>
+                    <br/>
+
+                    <h:panelGrid width="100%" style="text-align: center;">
+                        <div pTooltip="Disabled Button" style="display:inline-block;">
+                            <p:commandButton id="botaoAvancar"  
+                                             value="Avançar"                                                                                   
+                                             action="#{alunoController.confirmacaoRecadastro}" 
+                                             ajax="true" 
+                                             image="ui-icon-arrowthick-1-e"                                              
+                                             pt:data-tooltip="Update components"
+                                             title="Digitar RA se for Aluno UTFPR"
+                                             >  
+                            </p:commandButton>
+                        </div>
+                    </h:panelGrid>
+                    <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+
+                    <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                        <h:graphicImage  value="#{resource['img:gif-load.gif']}" library="img" name="gif-load.gif"/>
+                    </p:dialog>                    
+                </h:form>
+            </div>
+        </ui:define>
+    </ui:composition>
+</html>

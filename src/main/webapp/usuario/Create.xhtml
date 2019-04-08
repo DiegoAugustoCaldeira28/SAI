@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/templateEvento.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateUsuarioTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form class="createForm">
+                <p:fieldset legend ="Instrutor para Evento" toggleable="true" toggleSpeed="500">
+                    <p:messages />
+                    <h:panelGrid columns="2">
+                        <h:outputLabel value="Nome:" for="nome" />
+                        <p:inputText id="nome" value="#{usuarioController.selected.nome}" title="nome"/>
+                        <h:outputLabel value="CPF:" for="cpf" />
+                        <p:inputMask id="cpf" value="#{usuarioController.selected.cpf}"
+                                     title="CPF" mask="999.999.999-99" />
+                    </h:panelGrid>
+                    <p:commandButton ajax="false"   action="#{usuarioController.create}" value="Salvar"/>
+                </p:fieldset>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

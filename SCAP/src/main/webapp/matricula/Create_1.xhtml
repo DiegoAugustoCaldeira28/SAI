@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/templateEvento.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateInstrutorTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">            
+            <div class="boxMatricula">
+                <h:form class="createForm" styleClass="jsfcrud_list_form" id="MatriculaFormListInscrito" style="text-align: center" 
+                        rendered="#{matriculaController.usuarioLogado}">                     
+                    <p:fieldset legend="Matricula" toggleable="true" toggleSpeed="500">
+                        <div align="center" >
+                            <h:panelGroup id="messagePanel" layout="block">
+                                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                            </h:panelGroup>                       
+                            <p:panelGrid class="createGridMatricula"  columns="2" styleClass="borderNone">                            
+                                <p:outputLabel/>
+                                <p:outputLabel/>
+                                <p:outputLabel/>
+                                <p:outputLabel/>                            
+                                <p:selectOneMenu id="idaluno" value="#{matriculaController.selected.idaluno}"
+                                                 style="width:480px;"
+                                                 valueChangeListener="#{matriculaController.carregaMatricula}"
+                                                 filter="true" >
+                                    <f:selectItem itemLabel="Selecione" itemValue="" noSelectionOption="true" />
+                                    <f:selectItems value="#{matriculaController.alunosOrdenado}" />
+                                    <f:ajax event="change" render="Formtabela:tabela botaoMatricular botaoPagar"  />
+                                    <f:ajax event="change" render="Formtabela:quitado botaoMatricular botaoPagar" />
+                                </p:selectOneMenu>                                                                                    
+                            </p:panelGrid>
+                            <p:outputLabel/>
+                            <p:outputLabel/>
+
+                            <h:panelGrid columns="2" cellpadding="10" cellspacing="0" styleClass="">
+                                <p:commandButton class="botaoInscrito" 
+                                              value="Matricular"
+                                              id="botaoMatricular"
+                                              oncomplete="PF('MatriculaEditDialog').show()"
+                                              ajax="true"                                              
+                                              update=":MatriculaEditDialog"                                              
+                                              image="ui-icon-clipboard"
+                                              disabled="#{matriculaController.selected.idaluno == null}">  
+                                </p:commandButton>                                                        
+                                <p:commandButton class="botaoPago"
+                                                 id="botaoPagar"
+                                                 value="Consultar"
+                                                 oncomplete="PF('MatriculaPagoEditDialog').show()"
+                                                 ajax="true"
+                                                 update=":MatriculaPagoEditDialog"
+                                                 image="ui-icon-search"
+                                                 disabled="#{matriculaController.selected.idaluno == null}"
+                                                 >  
+                                </p:commandButton>
+                            </h:panelGrid>
+                        </div>
+                    </p:fieldset>
+                </h:form> 
+                <ui:include src="List.xhtml"/>
+                <ui:include src="ListPagos.xhtml"/>
+            </div>             
+        </ui:define>
+    </ui:composition>
+</html>

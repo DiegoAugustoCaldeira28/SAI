@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.-->
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/templateEvento.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateDataEventoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form class="createForm" rendered="#{dataEventoController.usuarioLogado}">
+                <p:fieldset legend =" Data do Evento" toggleable="true" toggleSpeed="500">
+                    <p:messages />
+                    <h:panelGrid class="createGrid" columns="2" styleClass="borderNone">
+                        <h:outputLabel value="Data do evento:" for="data" />
+                        <p:calendar id="data" pattern="dd/MM/yyyy" value="#{dataEventoController.selected.data}" 
+                                    title="Data do evento" mask="true" showOn="button" style="width: 400px">
+
+                        </p:calendar>
+                        <p:outputLabel value=" "/>
+                        <p:outputLabel value=" "/>    
+                        <p:outputLabel value=" "/>
+                        <p:outputLabel value=" "/>
+                        <p:outputLabel value=" "/>
+                        <p:outputLabel value=" "/>                                                
+                        <h:outputLabel value="Evento:" for="idevento" />
+                        <p:selectOneMenu id="idevento" value="#{dataEventoController.selected.idevento}" 
+                                         required="true" requiredMessage="Escolha um evento!" filter="true" filterMatchMode="contains" style="width: 450px">
+                            <f:selectItem itemLabel="Selecione" itemValue="" noSelectionOption="true" />
+                            <f:selectItems value="#{eventoController.itemsAvailableSelectOne}"/>
+                        </p:selectOneMenu>
+                        <br/>
+                        <p:outputLabel value=" "/>
+                        <p:commandButton ajax="false" action="#{dataEventoController.create}" value="Cadastrar"  title="Salvar"/>
+                    </h:panelGrid>
+                </p:fieldset>
+            </h:form> 
+        </ui:define>
+    </ui:composition>
+</html>

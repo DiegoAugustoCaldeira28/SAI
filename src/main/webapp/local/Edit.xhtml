@@ -1,0 +1,36 @@
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.-->
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="LocalEditDialog" widgetVar="LocalEditDialog" modal="true" resizable="false"
+                  appendTo="@(body)" header="Editar Local">
+            <h:form id="LocalEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{localController.selected != null}" styleClass="borderNone">
+                        <h:outputLabel value="Nome do local:" for="nomeLocal" />
+                        <p:inputText id="nomeLocal" value="#{localController.selected.nomeLocal}" 
+                                     title="Nome do local"/>                                                                                                                    
+
+                        <h:outputLabel value="Sala:" for="sala" />
+                        <p:inputText id="sala" value="#{localController.selected.sala}" 
+                                     title="Sala"/>       
+                    </p:panelGrid>
+                    <h:panelGrid width="100%" style="text-align: center" columns="2">
+                        <p:commandButton actionListener="#{localController.update}" value="Salvar"
+                                         update="display,:LocalFormList:tabela" oncomplete="PF('LocalEditDialog').hide()"/>
+                        <p:commandButton value="Cancelar" onclick="LocalEditDialog.hide()" action="#{localController.cancelSelected()}"/>
+                    </h:panelGrid>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>

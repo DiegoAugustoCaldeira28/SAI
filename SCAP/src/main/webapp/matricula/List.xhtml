@@ -1,0 +1,74 @@
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.-->
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="MatriculaEditDialog" widgetVar="MatriculaEditDialog" modal="true" resizable="false"
+                  appendTo="@(body)" header="Matricular Aluno em Eventos">
+            <h:form id="MatriculaEditForm">
+                <h:panelGroup id="display">
+                    <h:form id="FormtabelaMatriculaInscrito">
+                        <p:dataTable id="tabela" value="#{matriculaController.matricula}"
+                                     style="width: 1000px"
+                                     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                                     var="item" emptyMessage="Nenhum registro incluido."
+                                     selection="#{matriculaController.pago}"
+                                     rowKey="#{item.idmatricula}"
+                                     paginator="true" rows="50"
+                                     rowStyleClass="#{item.idevento.curso eq 'SAI' ? 'SAI' : null}">
+                            <p:ajax event="rowSelect"  update="tabela:qtde tabela:totalValue"/>
+                            <p:ajax event="rowUnselect"  update="tabela:qtde tabela:totalValue"/>
+                            <p:ajax event="rowSelectCheckbox"  update="tabela:qtde tabela:totalValue"/>
+                            <p:ajax event="rowUnselectCheckbox"  update="tabela:qtde tabela:totalValue"/>
+                            <p:ajax event="toggleSelect"  update="tabela:qtde tabela:totalValue"/>
+                            <p:column headerText="Aluno:">
+                                <p:outputLabel value="#{item.idaluno.nome}"/>
+                            </p:column>
+                            <p:column headerText="Evento:" filterBy="#{item.idevento.nome}"
+                                      filterMatchMode="contains" style="width: 400px">
+                                <p:outputLabel value="#{item.idevento.nome}"/>
+                            </p:column>
+                            <p:column headerText="Tipo:" style="width: 150px">
+                                <p:outputLabel value="#{item.idevento.tipo}"/>
+                            </p:column>
+                            <p:column headerText="Valor:" style="width: 75px">
+                                <p:outputLabel value="#{item.idevento.custo}">
+                                    <f:convertNumber currencySymbol="R$" minFractionDigits="2" type="currency"/>
+                                </p:outputLabel>
+                            </p:column>
+                            <p:column selectionMode="multiple" style="width:30px;text-align:center" headerText="Pago:">
+                            </p:column>
+                            <f:facet name="footer" id="footer">
+                                <p:outputLabel value="Quantidade de cursos: " />                                                                
+                                <p:outputLabel id="qtde" value="#{matriculaController.quantidadeSelecionados}"/>
+                                <br/>
+                                <br/>
+                                <p:outputLabel value="Valor Total: " />
+                                <p:outputLabel id="totalValue" value="#{matriculaController.valorTotalSelecionados}"/>
+                            </f:facet>
+                        </p:dataTable>
+                        <br/>
+                        <h:panelGrid width="100%" style="text-align: center">
+                            <p:commandButton ajax="true" 
+                                             action="#{matriculaController.pagando()}" 
+                                             value="Salvar"/>
+                        </h:panelGrid>                        
+                    </h:form>
+                    <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+
+                    <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                        <h:graphicImage  value="#{resource['img:gif-load.gif']}" library="img" name="gif-load.gif"/>
+                    </p:dialog>
+                </h:panelGroup>
+            </h:form>            
+        </p:dialog>
+    </ui:composition>
+</html>

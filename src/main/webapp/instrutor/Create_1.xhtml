@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.-->
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/templateEvento.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateInstrutorTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form class="createForm" rendered="#{instrutorController.usuarioLogado}">
+                <p:fieldset legend ="Cadastro de Instrutores " toggleable="true" toggleSpeed="500">
+                    <p:messages />
+                    <h:panelGrid class="createGrid" columns="2" styleClass="borderNone">
+
+                        <p:outputLabel value="Nome:" for="nome" />
+                        <p:inputText id="nome" value="#{instrutorController.selected.nome}" title="Nome" />                                                        
+                        <p:outputLabel value=""/>
+                        <br/>
+                        <p:outputLabel value="CPF:" for="cpf" />
+                        <p:inputMask id="cpf" value="#{instrutorController.selected.cpf}"
+                                     title="CPF" mask="999.999.999-99"/>
+                        <p:outputLabel value=""/>
+                        <br/>
+                        <p:outputLabel value="RG:" for="rg" />
+                        <p:inputText id="rg" value="#{instrutorController.selected.rg}" title="RG" />
+                        <p:outputLabel value=""/>
+                        <br/>
+                        <p:outputLabel value="Orgão Expeditor:" for="orgaoExpeditor" />
+                        <p:inputText id="orgaoExpeditor" value="#{instrutorController.selected.orgaoExpeditor}" 
+                                     title="Orgão expeditor" />                                                        
+                        <p:outputLabel value=""/>
+                        <br/>
+                        <p:outputLabel value="Email:" for="email" />
+                        <p:inputText id="email" value="#{instrutorController.selected.email}" title="Email" />                                                        
+                        <p:outputLabel value=""/>
+                        <br/>
+                        <p:outputLabel value="Instrutor de:" for="tipoInstrutor" />
+                        <p:selectOneButton id="tipoInstrutor" value="#{instrutorController.selected.tipo}" >
+                            <f:selectItem itemLabel="Minicurso" itemValue="true" />
+                            <f:selectItem itemLabel="Visita técnica" itemValue="false" />
+                        </p:selectOneButton>
+                        <p:outputLabel value=""/>
+                        <br/>
+                        <p:commandButton ajax="false"   action="#{instrutorController.create}" value="Cadastrar"/>
+                    </h:panelGrid>
+                    <br/>                        
+                </p:fieldset>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

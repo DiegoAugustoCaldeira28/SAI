@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/templateEvento.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListEventosInstrutoresTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form" id="EIFormList" rendered="#{eventosInstrutoresController.usuarioLogado}">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <p:dataTable id="tabela" value="#{eventosInstrutoresController.items}" 
+                             var="item" emptyMessage="Nenhum registro incluido."
+                             rowKey="#{item.idEventoInstrutor}"
+                             paginator="true" rows="10"
+                             widgetVar="tabelaEventosInstrutores"
+                             filteredValue="#{eventosInstrutoresController.eventosInstrutoresFiltrados}">  
+                    <p:ajax event="filter" global="false"/>
+                    <f:facet name="header">
+                        <p:outputPanel>
+                            <p:inputText id="globalFilter" 
+                                         onkeyup="PF('tabelaEventosInstrutores').filter()" 
+                                         style="width:200px" placeholder="Palavra Chave"
+                                         />
+                        </p:outputPanel>
+                    </f:facet>
+                    <p:column filterBy="#{item.idinstrutor.nome}" filterStyle="display:none">
+                        <f:facet name="header">
+                            <p:outputLabel value="Instrutor:"/>
+                        </f:facet>
+                        <p:outputLabel value="#{item.idinstrutor.nome}"/>
+                    </p:column>
+                    <p:column filterBy="#{item.idevento.nome}" filterStyle="display:none">
+                        <f:facet name="header">
+                            <p:outputLabel value="Evento:"/>
+                        </f:facet>
+                        <p:outputLabel value="#{item.idevento.nome}"/>
+                    </p:column>
+                    <p:column style="width: 25px;">
+                        <p:commandButton ajax="true" actionListener="#{eventosInstrutoresController.editar(item)}" 
+                                         oncomplete="PF('EIEditDialog').show()"
+                                         update=":EIEditDialog"
+                                         image="ui-icon-pencil"/>
+                    </p:column >
+                    <p:column style="width: 25px; text-align: center;">
+                        <p:commandButton ajax="true" 
+                                         actionListener="#{eventosInstrutoresController.destroy(item)}" 
+                                         image="ui-icon-trash"
+                                         update="@form">
+                            <p:confirm header="Confimação" message="Tem certeza que deseja excluir?"
+                                       icon="ui-icon-alert"/>
+                        </p:commandButton>
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" style="text-align: center">
+                            <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no"
+                                             icon="ui-icon-close" action="#{eventosInstrutoresController.cancelSelected()}"/>
+                        </p:confirmDialog>
+                    </p:column> 
+                </p:dataTable>
+            </h:form>
+            <ui:include src="Edit.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
+</html>

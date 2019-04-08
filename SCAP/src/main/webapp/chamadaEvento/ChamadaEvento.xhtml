@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.-->
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/templateInscricao.xhtml"><ui:define name="body">
+            <div class="box">
+                <h:form id="form1" class="createForm" rendered="#{chamadaEventoController.usuarioLogado}">
+                    <p:fieldset legend="Cadastro de Chamadas" toggleable="true" toggleSpeed="500">
+                        <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+                        <p:panelGrid class="createGrid" columns="2" styleClass="borderNone">
+                            <p:selectOneMenu id="iddataEvento" value="#{chamadaEventoController.selected.iddataEvento}"
+                                             valueChangeListener="#{chamadaEventoController.pegaEvento}"
+                                             required="true" requiredMessage="Selecione um Evento">
+                                <f:selectItem itemLabel="Selecione" itemValue="" noSelectionOption="true" />
+                                <f:selectItems value="#{chamadaEventoController.eventosAbertos}" var="item" itemValue="#{item}" itemLabel="#{item.idevento.nome}"/>
+                                <f:ajax event="change" render="Formtabela:tabela total" />
+                            </p:selectOneMenu>
+                            <br/>
+                            <p:outputLabel value="Hora:" for="hora" />
+                            <br/>
+                            <p:clock id="hora" pattern="HH:mm:ss" />
+                            <br/>
+                            <p:outputLabel id="out" value="RA:" for="ra" />
+                            <br/>
+                            <p:inputText id="ra"  value="#{chamadaEventoController.aluno.ra}" onfocus="this.value = ''"  onkeypress="if (event.keyCode === 13) {
+                                        Primefaces.getElementById('ra').trigger('change');
+                                        return false;
+                                    }">
+                                <p:ajax event="change" listener="#{chamadaEventoController.findExactRA}" update="Formtabela:tabela ra total"/>
+                            </p:inputText>
+                            <p:outputLabel id="forcpf" value="CPF" for="cpf" style="position: relative; top: -30px;"/>
+                            <br/>
+                            <p:inputMask id="cpf" value="#{chamadaEventoController.aluno.cpf}" mask="999.999.999-99" onfocus="this.value = ''" style="position: relative; top: -35px;"/>
+                            <p:remoteCommand name="rc" action="#{chamadaEventoController.findExactCPF}" update="Formtabela:tabela cpf total" value="Registrar CPF" />
+                            <p:link class="botaofalso" onclick="rc()" href="#" value="Registar CPF" style="position: relative; top: -30px;"/>
+                            <p:outputLabel value="Total de Alunos" for="total"/>
+                            <p:outputLabel value=""/>
+                            <p:outputLabel id="total" value="#{chamadaEventoController.totalalunos()}"/>
+                        </p:panelGrid>
+                    </p:fieldset>
+                </h:form>
+            </div>
+            <br/>
+            <h:form id="Formtabela">
+                <p:dataTable id="tabela" value="#{chamadaEventoController.chamada}"
+                             var="item" paginator="true" rows="2000"
+                             paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                             emptyMessage="Sem Registros."
+                             >
+                    <p:column width="100">
+                        <f:facet name="header" >
+                            <p:outputLabel value="CPF"/>
+                        </f:facet>
+                        <p:outputLabel value="#{item.idaluno.cpf}"/>
+                    </p:column>
+                    <p:column width="50"> 
+                        <f:facet name="header">
+                            <p:outputLabel value="RA"/>
+                        </f:facet>
+                        <p:outputLabel value="#{item.idaluno.ra}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <p:outputLabel value="Nome"/>
+                        </f:facet>
+                        <p:outputLabel value="#{item.idaluno.nome}" style="text-transform: uppercase"/>
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header" >
+                            <p:outputLabel value="Palestra"/>
+                        </f:facet>
+                        <p:outputLabel value="#{item.iddataEvento.idevento.nome}"/>
+                    </p:column>
+
+                    <p:column width="50">
+                        <f:facet name="header">
+                            <p:outputLabel value="Hora"/>
+                        </f:facet>
+                        <p:outputLabel value="#{item.hora}">
+                            <f:convertDateTime type="date" pattern="HH:mm:ss" timeZone="GMT-3"  locale="pt_BR"/>
+                        </p:outputLabel>
+                    </p:column>
+                    <p:column width="70">
+                        <f:facet name="header">
+                            <p:outputLabel value="Situação"/>
+                        </f:facet>
+                        <p:outputLabel value="#{item.situacao?'Entrou':'Saiu'}"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

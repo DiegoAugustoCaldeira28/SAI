@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/templateInscricao.xhtml">
+
+        <ui:define name="body">
+            <div class="box">
+                <h:form class="createForm">
+                    <p:fieldset legend="Chamada Padrão" toggleable="true" toggleSpeed="500">
+                        <p:messages />
+                        <p:panelGrid class="createGrid" columns="2" styleClass="borderNone">
+
+                            <p:outputLabel for="iddataEvento" value="Eventos:"/>
+                            <p:selectOneMenu id="iddataEvento" value="#{chamadaController.selected.iddataEvento.idevento}"
+                                             required="true"
+                                             valueChangeListener="#{chamadaController.carregaChamada}"
+                                             requiredMessage="#{bundle.CreateChamadaRequiredMessage_iddataEvento}">
+                                <p:ajax event="change" update="Formtabela:tabela"  />
+                                <f:selectItem itemLabel="Selecione" itemValue="" noSelectionOption="true" />
+                                <f:selectItems value="#{chamadaController.eventosInstrutor}"/>
+                            </p:selectOneMenu>
+                        </p:panelGrid>
+                    </p:fieldset>
+                </h:form>
+                <h:form id="Formtabela">
+                    <p:dataTable id="tabela" value="#{chamadaController.items}" var="item" 
+                                 emptyMessage="Nenhum registro incluido." 
+                                 editable="true" editMode="cell"
+                                 paginator="true" rows="100"
+                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                                 rowIndexVar="rowIndex"
+                                 >
+                        <p:ajax event="cellEdit" 
+                                listener="#{chamadaController.onCellEdit}"
+                                >
+                        </p:ajax>
+                        <p:column headerText="#"  width="10">
+                            <p:outputLabel value="#{rowIndex + 1}" />
+                        </p:column>
+                        <p:column headerText="RA" width="50">
+                            <p:outputLabel value="#{item.idaluno.ra}" />
+                        </p:column>
+                        <p:column headerText="Nome" >
+                            <p:outputLabel value="#{item.idaluno.nome}" style="text-transform: uppercase" />
+                        </p:column>
+                        <p:column headerText="Pressente" width="50" >
+                            <p:selectBooleanCheckbox value="#{item.presente}" />
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText value="#{item.faltas}" />
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:inputNumber value="#{item.faltas}" style="width:96%" minValue="0" decimalPlaces="0"/>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                    </p:dataTable>
+                    <br/>
+                    <h:panelGrid width="100%" style="text-align: center">
+                        <p:commandButton ajax="false" action="#{chamadaController.salvar()}" value="Realizar Chamada"/>
+                    </h:panelGrid>
+                </h:form>
+            </div>
+        </ui:define>
+    </ui:composition>
+</html>

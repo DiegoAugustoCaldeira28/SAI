@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/templateEvento.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListAlunoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <div class="box">
+                <h:form styleClass="jsfcrud_list_form">                
+                    <h:panelGroup rendered="#{alunoController.items.rowCount > 0}">
+                        <h:outputText value="#{alunoController.pagination.pageFirstItem + 1}..#{alunoController.pagination.pageLastItem + 1}/#{alunoController.pagination.itemsCount}"/>&nbsp;
+                        <h:commandLink action="#{alunoController.previous}" value="#{bundle.Previous} #{alunoController.pagination.pageSize}" rendered="#{alunoController.pagination.hasPreviousPage}"/>&nbsp;
+                        <h:commandLink action="#{alunoController.next}" value="#{bundle.Next} #{alunoController.pagination.pageSize}" rendered="#{alunoController.pagination.hasNextPage}"/>&nbsp;
+                        <h:dataTable value="#{alunoController.duplicados}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListAlunoTitle_idaluno}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.idaluno.nome}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="ID Evento"/>
+                                </f:facet>
+                                <h:outputText value="#{item.idevento.idevento}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Nome Evento"/>
+                                </f:facet>
+                                <h:outputText value="#{item.idevento.nome}"/>
+                            </h:column>
+                        </h:dataTable>
+                    </h:panelGroup>
+                    <br />
+                    <h:commandLink action="#{alunoController.verificarDuplicados()}" value="Alunos Duplicados"/>
+                    <br />
+                    <br />
+                    <h:commandLink action="#{alunoController.apagarDuplicados()}" value="Apagar Duplicados"/>
+                </h:form>
+            </div>
+        </ui:define>
+    </ui:composition>
+</html>

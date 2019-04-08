@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListChamadaEventoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListChamadaEventoEmpty}" rendered="#{chamadaEventoController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{chamadaEventoController.items.rowCount > 0}">
+                    <h:outputText value="#{chamadaEventoController.pagination.pageFirstItem + 1}..#{chamadaEventoController.pagination.pageLastItem + 1}/#{chamadaEventoController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{chamadaEventoController.previous}" value="#{bundle.Previous} #{chamadaEventoController.pagination.pageSize}" rendered="#{chamadaEventoController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{chamadaEventoController.next}" value="#{bundle.Next} #{chamadaEventoController.pagination.pageSize}" rendered="#{chamadaEventoController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{chamadaEventoController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListChamadaEventoTitle_idchamada}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idchamada}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListChamadaEventoTitle_hora}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.hora}">
+                                <f:convertDateTime pattern="HH:mm:ss" />
+                            </h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListChamadaEventoTitle_situacao}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.situacao}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListChamadaEventoTitle_idaluno}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idaluno}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListChamadaEventoTitle_iddataEvento}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.iddataEvento}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{chamadaEventoController.prepareView}" value="#{bundle.ListChamadaEventoViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{chamadaEventoController.prepareEdit}" value="#{bundle.ListChamadaEventoEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{chamadaEventoController.destroy}" value="#{bundle.ListChamadaEventoDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{chamadaEventoController.prepareCreate}" value="#{bundle.ListChamadaEventoCreateLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ListChamadaEventoIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

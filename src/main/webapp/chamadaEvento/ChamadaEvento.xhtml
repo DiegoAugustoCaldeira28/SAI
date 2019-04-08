@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/templateInscricao.xhtml">
+
+        <ui:define name="body">
+            <div class="box">
+                <h:form id="form1" class="createForm">
+                    <p:fieldset legend="Cadastro de Chamadas" toggleable="true" toggleSpeed="500">
+                        <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+                        <p:panelGrid class="createGrid" columns="2" styleClass="borderNone">
+                            <p:outputLabel value="Atenção: Se o evento for direcionado ao pacote SAI, habilitar em sim o Evento SAI." />
+                            <p:outputLabel value="" />
+                            <p:selectOneMenu id="iddataEvento" value="#{chamadaEventoController.selected.iddataEvento}"
+                                             valueChangeListener="#{chamadaEventoController.pegaEvento}"
+                                             required="true" requiredMessage="Selecione um Evento"
+                                             filter="true" filterMatchMode="contains">
+                                <f:selectItem itemLabel="Selecione" itemValue="" noSelectionOption="true" />
+                                <f:selectItems value="#{dataEventoController.notMinicurso}" var="item" itemLabel="#{item.idevento.nome}"/>
+                                <f:ajax event="change" render="Formtabela:tabela ra
+                                        admin cpf Formtabela:botaoFechar botaofalso total"  />
+                            </p:selectOneMenu>
+                            <br/>
+                            <p:outputLabel value="Hora" for="hora" />
+                            <br/>
+                            <p:clock id="hora" pattern="HH:mm:ss" />
+                            <br/>
+                            <p:outputLabel id="out" value="RA" for="ra" />
+                            <br/>
+                            <p:inputText id="ra" 
+                                         value="#{chamadaEventoController.aluno.ra}"
+                                         disabled="#{chamadaEventoController.palestraFechada()}"
+                                         onfocus="this.value = ''"  
+                                         onkeypress="if (event.keyCode === 13) {
+                                                     Primefaces.getElementById('ra').trigger('change');
+                                                     return false;
+                                                 }">
+                                <p:ajax event="change" listener="#{chamadaEventoController.findExactRA}" update="Formtabela:tabela ra"/>
+                            </p:inputText>
+                            <p:outputLabel id="forcpf" value="CPF" for="cpf" style="position: relative; top: -30px;"/>
+                            <br/>
+                            <p:inputMask id="cpf" value="#{chamadaEventoController.aluno.cpf}"
+                                         mask="999.999.999-99" onfocus="this.value = ''" 
+                                         style="position: relative; top: -35px;"
+                                         disabled="#{chamadaEventoController.palestraFechada()}"/>
+                            <p:remoteCommand name="rc" action="#{chamadaEventoController.findExactCPF}" update="Formtabela:tabela cpf" value="Registrar CPF"/>
+                            <p:link class="botaofalso" id="botaofalso" onclick="rc()" href="#" value="Registar CPF" 
+                                    style="position: relative; top: -30px;"
+                                    disabled="#{chamadaEventoController.palestraFechada()}"/>
+                            <p:outputLabel value="Total de Alunos" for="total"/>
+                            <p:outputLabel value="Evento SAI:" for="admin" />
+                            <p:outputLabel id="total" value="#{chamadaEventoController.totalalunos()}" />                            
+                            <p:selectOneRadio id="admin" value="#{chamadaEventoController.flagSai}"
+                                              required="true" requiredMessage="Escolha um:"
+                                              valueChangeListener="#{chamadaEventoController.pegaFlag}"
+                                              disabled="#{chamadaEventoController.palestraFechada()}">
+                                <f:selectItem itemLabel="Sim" itemValue="true" />
+                                <f:selectItem itemLabel="Nao" itemValue="false" />
+                                <p:ajax event="change"/>
+                            </p:selectOneRadio>
+                        </p:panelGrid>
+                    </p:fieldset>
+                </h:form>
+            </div>
+            <br/>
+            <h:form id="Formtabela">
+                <p:dataTable id="tabela" value="#{chamadaEventoController.chamada}"
+                             var="item" paginator="false" rows="100"
+                             paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                             emptyMessage="Sem Registros."
+                             >
+                    <p:column width="100">
+                        <f:facet name="header" >
+                            <p:outputLabel value="CPF"/>
+                        </f:facet>
+                        <p:outputLabel value="#{item.idaluno.cpf}"/>
+                    </p:column>
+                    <p:column width="50"> 
+                        <f:facet name="header">
+                            <p:outputLabel value="RA"/>
+                        </f:facet>
+                        <p:outputLabel value="#{item.idaluno.ra}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <p:outputLabel value="Nome"/>
+                        </f:facet>
+                        <p:outputLabel value="#{item.idaluno.nome}" style="text-transform: uppercase"/>
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header" >
+                            <p:outputLabel value="Palestra"/>
+                        </f:facet>
+                        <p:outputLabel value="#{item.iddataEvento.idevento.nome}"/>
+                    </p:column>
+
+                    <p:column width="50">
+                        <f:facet name="header">
+                            <p:outputLabel value="Hora"/>
+                        </f:facet>
+                        <p:outputLabel value="#{item.hora}">
+                            <f:convertDateTime type="date" pattern="HH:mm:ss" timeZone="GMT-3"  locale="pt_BR"/>
+                        </p:outputLabel>
+                    </p:column>
+                    <p:column width="70">
+                        <f:facet name="header">
+                            <p:outputLabel value="Situação"/>
+                        </f:facet>
+                        <p:outputLabel value="#{item.situacao?'Entrou':'Saiu'}"/>
+                    </p:column>
+                </p:dataTable>
+                <h:panelGrid width="100%" style="text-align: center;">
+                    <br/>
+                    <p:commandButton id="botaoFechar"  
+                                     value="Encerrar Evento"                                                                                   
+                                     action="#{chamadaEventoController.encerrarChamadaEvento}"
+                                     disabled="#{chamadaEventoController.palestraFechada()}"
+                                     >  
+                    </p:commandButton>
+                    <br/>
+                    <p:commandButton id="botaoHistorico"  
+                                     value="Gerar Historico"                                                                                   
+                                     action="#{chamadaEventoController.gerarHistorico()}"                                     
+                                     >  
+                    </p:commandButton>
+                    <p:commandButton id="botaoimprimirHistorico"  
+                                     value="Imprimir Historico"                                                                                   
+                                     action="#{chamadaEventoController.imprimirHistorico()}"                                     
+                                     >  
+                    </p:commandButton>
+                    <p:commandButton id="botaogerarLista"  
+                                     value="Gerar Lista"                                                                                   
+                                     action="#{dataEventoController.gerarLista()}"                                     
+                                     >  
+                    </p:commandButton>                    
+                </h:panelGrid>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

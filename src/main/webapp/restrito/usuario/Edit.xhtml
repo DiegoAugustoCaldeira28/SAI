@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="UsuarioEditDialog" widgetVar="UsuarioEditDialog" modal="true" resizable="false"
+                  appendTo="@(body)" header="Editar Usuario">
+            <h:form id="UsuarioEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{usuarioController.selected != null}" styleClass="borderNone">
+                        <h:outputLabel value="Nome:" for="nome" />
+                        <p:inputText id="nome" value="#{usuarioController.selected.nome}" title="nome" />
+                        <h:outputLabel value="CPF:" for="cpf" />
+                        <p:inputMask id="cpf" value="#{usuarioController.selected.cpf}"
+                                     title="CPF" mask="999.999.999-99" />               
+                    </p:panelGrid>
+                    <h:panelGrid width="100%" style="text-align: center" columns="2">
+                        <p:commandButton actionListener="#{usuarioController.update}" value="Salvar" 
+                                         update="display,:UsuarioFormList:tabela" oncomplete="PF('UsuarioEditDialog').hide()"/>
+                        <p:commandButton value="Cancelar" onclick="UsuarioEditDialog.hide()" action="#{usuarioController.cancelSelected()}"/>
+                    </h:panelGrid>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+
+</html>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditChamadaAulaTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditChamadaAulaLabel_idchamadaAula}" for="idchamadaAula" />
+                    <h:inputText id="idchamadaAula" value="#{chamadaAulaController.selected.idchamadaAula}" title="#{bundle.EditChamadaAulaTitle_idchamadaAula}" required="true" requiredMessage="#{bundle.EditChamadaAulaRequiredMessage_idchamadaAula}"/>
+                    <h:outputLabel value="#{bundle.EditChamadaAulaLabel_faltas}" for="faltas" />
+                    <h:inputText id="faltas" value="#{chamadaAulaController.selected.faltas}" title="#{bundle.EditChamadaAulaTitle_faltas}" />
+                    <h:outputLabel value="#{bundle.EditChamadaAulaLabel_idaluno}" for="idaluno" />
+                    <h:selectOneMenu id="idaluno" value="#{chamadaAulaController.selected.idaluno}" title="#{bundle.EditChamadaAulaTitle_idaluno}" required="true" requiredMessage="#{bundle.EditChamadaAulaRequiredMessage_idaluno}">
+                        <f:selectItems value="#{alunoController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.EditChamadaAulaLabel_iddataEvento}" for="iddataEvento" />
+                    <h:selectOneMenu id="iddataEvento" value="#{chamadaAulaController.selected.iddataEvento}" title="#{bundle.EditChamadaAulaTitle_iddataEvento}" required="true" requiredMessage="#{bundle.EditChamadaAulaRequiredMessage_iddataEvento}">
+                        <f:selectItems value="#{dataEventoController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <h:commandLink action="#{chamadaAulaController.update}" value="#{bundle.EditChamadaAulaSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditChamadaAulaViewLink}"/>
+                <br />
+                <h:commandLink action="#{chamadaAulaController.prepareList}" value="#{bundle.EditChamadaAulaShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditChamadaAulaIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

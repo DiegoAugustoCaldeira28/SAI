@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/templateInscricao.xhtml">
+
+        <ui:define name="body">
+            <div class="box">
+                <h:form id="form1" class="createForm" rendered="#{chamadaEventoController.usuarioLogado}">
+                    <p:fieldset legend="Sorteio Palestra" toggleable="true" toggleSpeed="500">
+                        <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+                        <p:panelGrid class="createGrid" columns="2" styleClass="borderNone">
+                            <p:outputLabel value="Atenção: Se o evento for direcionado ao pacote SAI, habilitar em sim o Evento SAI." />
+                            <p:outputLabel value="" />
+                            <p:selectOneMenu id="iddataEvento" value="#{chamadaEventoController.selected.iddataEvento}"
+                                             valueChangeListener="#{chamadaEventoController.pegaEvento}"
+                                             required="true" requiredMessage="Selecione um Evento"
+                                             filter="true" filterMatchMode="contains">
+                                <f:selectItem itemLabel="Selecione" itemValue="" noSelectionOption="true" />
+                                <f:selectItems value="#{dataEventoController.notMinicurso}" var="item" itemLabel="#{item.idevento.nome}"/>
+                                <f:ajax event="change" render="Formtabela:tabela total botaoSortear"  />
+                            </p:selectOneMenu>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <p:outputLabel id="total" value="Total de presentes: #{chamadaEventoController.totalAlunosDentro()}" style="font-weight: bolder"/>
+                            <p:outputLabel for="qtde" value="Quantidade de sorteados:"/>
+                            <br/>
+                            <p:spinner id="qtde" value="#{chamadaEventoController.qtde}" min="1" />
+                            <h:panelGrid width="100%" style="text-align: center;">
+                                <br/>
+                                <p:commandButton id="botaoSortear"  
+                                                 value="Sortear"                                                                                   
+                                                 action="#{chamadaEventoController.sorteia()}"
+                                                 disabled="#{chamadaEventoController.ativaSorteio()}"
+                                                 update="Formtabela:tabela"
+                                                 >  
+                                </p:commandButton>
+                            </h:panelGrid>
+                        </p:panelGrid>
+                    </p:fieldset>
+                </h:form>
+            </div>
+            <br/>
+            <h:form id="Formtabela">
+                <p:dataTable id="tabela" value="#{chamadaEventoController.sorteados}"
+                             var="item" paginator="false" rows="100"
+                             paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                             emptyMessage="Sem Registros."
+                             sortBy="#{item.nome}"
+                             >
+                    <p:column>
+                        <f:facet name="header">
+                            <p:outputLabel value="Nome"/>
+                        </f:facet>
+                        <p:outputLabel value="#{item.nome}" style="text-transform: uppercase"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListCargaHorariaTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListCargaHorariaEmpty}" rendered="#{cargaHorariaController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{cargaHorariaController.items.rowCount > 0}">
+                    <h:outputText value="#{cargaHorariaController.pagination.pageFirstItem + 1}..#{cargaHorariaController.pagination.pageLastItem + 1}/#{cargaHorariaController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{cargaHorariaController.previous}" value="#{bundle.Previous} #{cargaHorariaController.pagination.pageSize}" rendered="#{cargaHorariaController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{cargaHorariaController.next}" value="#{bundle.Next} #{cargaHorariaController.pagination.pageSize}" rendered="#{cargaHorariaController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{cargaHorariaController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListCargaHorariaTitle_idcargaHoraria}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idcargaHoraria}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListCargaHorariaTitle_idaluno}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idaluno}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListCargaHorariaTitle_idevento}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idevento}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{cargaHorariaController.prepareView}" value="#{bundle.ListCargaHorariaViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{cargaHorariaController.prepareEdit}" value="#{bundle.ListCargaHorariaEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{cargaHorariaController.destroy}" value="#{bundle.ListCargaHorariaDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{cargaHorariaController.prepareCreate}" value="#{bundle.ListCargaHorariaCreateLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ListCargaHorariaIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

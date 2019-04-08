@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.-->
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/templateEvento.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateeventosInstrutoresTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form class="createForm" rendered="#{eventosInstrutoresController.usuarioLogado}">
+                <p:fieldset legend ="Instrutor para Evento" toggleable="true" toggleSpeed="500">
+                    <p:messages />
+                    <h:panelGrid class="createGrid" columns="2" styleClass="borderNone"> 
+                        <p:outputLabel value="Evento:"/>
+                        <p:selectOneMenu id="idevento" value="#{eventosInstrutoresController.selected.idevento}" 
+                                         required="true" requiredMessage="Selecione um evento!" filter="true" style="width: 400px">
+                            <f:selectItem itemLabel="Selecione" itemValue="" noSelectionOption="true" />
+                            <f:selectItems value="#{eventoController.itemsAvailableSelectOne}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value=""/>
+                        <br/>
+                        <h:outputLabel value="Instrutor:" for="idinstrutor" />
+                        <p:selectOneMenu id="idinstrutor" value="#{eventosInstrutoresController.selected.idinstrutor}" 
+                                         required="true" requiredMessage="Selecione um instrutor!" filter="true" style="width: 400px">
+                            <f:selectItem itemLabel="Selecione" itemValue="" noSelectionOption="true" />
+                            <f:selectItems value="#{instrutorController.itemsAvailableSelectOne}"/>
+                        </p:selectOneMenu>
+                    </h:panelGrid>
+                    <p:outputLabel value=""/>
+                    <br/>
+                    <p:commandButton ajax="false"   action="#{eventosInstrutoresController.create}" value="Salvar"/>
+                    <p:commandButton ajax="false"   action="#{eventosInstrutoresController.cadastrarTodos}" value="Cadastrar em todos"/>
+                    <p:commandButton ajax="false"   action="#{eventosInstrutoresController.removerTodos()}" value="Remover em todos"/>
+                </p:fieldset>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

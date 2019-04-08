@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/templateEvento.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateUsuarioTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form class="createForm">
+                <p:fieldset legend ="Instrutor para Evento" toggleable="true" toggleSpeed="500">
+                    <p:messages />
+                    <h:panelGrid columns="2">                        
+                    </h:panelGrid>
+                    <p:commandButton ajax="false"   action="#{cargaHorariaController.cargaHistorico()}" value="Gerar Carga Horaria"/>
+                    <p:commandButton ajax="false"   action="#{cargaHorariaController.gerarCSV()}" value="Gerar CSV"/>
+                </p:fieldset>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

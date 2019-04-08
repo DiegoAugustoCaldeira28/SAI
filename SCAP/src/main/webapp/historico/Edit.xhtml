@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditHistoricoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditHistoricoLabel_idhistorico}" for="idhistorico" />
+                    <h:inputText id="idhistorico" value="#{historicoController.selected.idhistorico}" title="#{bundle.EditHistoricoTitle_idhistorico}" required="true" requiredMessage="#{bundle.EditHistoricoRequiredMessage_idhistorico}"/>
+                    <h:outputLabel value="#{bundle.EditHistoricoLabel_tempo}" for="tempo" />
+                    <h:inputText id="tempo" value="#{historicoController.selected.tempo}" title="#{bundle.EditHistoricoTitle_tempo}" />
+                    <h:outputLabel value="#{bundle.EditHistoricoLabel_idaluno}" for="idaluno" />
+                    <h:selectOneMenu id="idaluno" value="#{historicoController.selected.idaluno}" title="#{bundle.EditHistoricoTitle_idaluno}" required="true" requiredMessage="#{bundle.EditHistoricoRequiredMessage_idaluno}">
+                        <f:selectItems value="#{alunoController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.EditHistoricoLabel_idevento}" for="idevento" />
+                    <h:selectOneMenu id="idevento" value="#{historicoController.selected.idevento}" title="#{bundle.EditHistoricoTitle_idevento}" required="true" requiredMessage="#{bundle.EditHistoricoRequiredMessage_idevento}">
+                        <f:selectItems value="#{eventoController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <h:commandLink action="#{historicoController.update}" value="#{bundle.EditHistoricoSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditHistoricoViewLink}"/>
+                <br />
+                <h:commandLink action="#{historicoController.prepareList}" value="#{bundle.EditHistoricoShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditHistoricoIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

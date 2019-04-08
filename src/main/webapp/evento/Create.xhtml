@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateEventoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateEventoLabel_idevento}" for="idevento" />
+                    <h:inputText id="idevento" value="#{eventoController.selected.idevento}" title="#{bundle.CreateEventoTitle_idevento}" required="true" requiredMessage="#{bundle.CreateEventoRequiredMessage_idevento}"/>
+                    <h:outputLabel value="#{bundle.CreateEventoLabel_nome}" for="nome" />
+                    <h:inputText id="nome" value="#{eventoController.selected.nome}" title="#{bundle.CreateEventoTitle_nome}" />
+                    <h:outputLabel value="#{bundle.CreateEventoLabel_tipo}" for="tipo" />
+                    <h:inputText id="tipo" value="#{eventoController.selected.tipo}" title="#{bundle.CreateEventoTitle_tipo}" />
+                    <h:outputLabel value="#{bundle.CreateEventoLabel_descricao}" for="descricao" />
+                    <h:inputTextarea rows="4" cols="30" id="descricao" value="#{eventoController.selected.descricao}" title="#{bundle.CreateEventoTitle_descricao}" />
+                    <h:outputLabel value="#{bundle.CreateEventoLabel_vagasTotais}" for="vagasTotais" />
+                    <h:inputText id="vagasTotais" value="#{eventoController.selected.vagasTotais}" title="#{bundle.CreateEventoTitle_vagasTotais}" />
+                    <h:outputLabel value="#{bundle.CreateEventoLabel_horaInicio}" for="horaInicio" />
+                    <h:inputText id="horaInicio" value="#{eventoController.selected.horaInicio}" title="#{bundle.CreateEventoTitle_horaInicio}" >
+                        <f:convertDateTime pattern="HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.CreateEventoLabel_horaTermino}" for="horaTermino" />
+                    <h:inputText id="horaTermino" value="#{eventoController.selected.horaTermino}" title="#{bundle.CreateEventoTitle_horaTermino}" >
+                        <f:convertDateTime pattern="HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.CreateEventoLabel_curso}" for="curso" />
+                    <h:inputText id="curso" value="#{eventoController.selected.curso}" title="#{bundle.CreateEventoTitle_curso}" />
+                    <h:outputLabel value="#{bundle.CreateEventoLabel_custo}" for="custo" />
+                    <h:inputText id="custo" value="#{eventoController.selected.custo}" title="#{bundle.CreateEventoTitle_custo}" />
+                    <h:outputLabel value="#{bundle.CreateEventoLabel_cargaHoraria}" for="cargaHoraria" />
+                    <h:inputText id="cargaHoraria" value="#{eventoController.selected.cargaHoraria}" title="#{bundle.CreateEventoTitle_cargaHoraria}" />
+                    <h:outputLabel value="#{bundle.CreateEventoLabel_tempoMinimo}" for="tempoMinimo" />
+                    <h:inputText id="tempoMinimo" value="#{eventoController.selected.tempoMinimo}" title="#{bundle.CreateEventoTitle_tempoMinimo}" />
+                    <h:outputLabel value="#{bundle.CreateEventoLabel_idlocal}" for="idlocal" />
+                    <h:selectOneMenu id="idlocal" value="#{eventoController.selected.idlocal}" title="#{bundle.CreateEventoTitle_idlocal}" required="true" requiredMessage="#{bundle.CreateEventoRequiredMessage_idlocal}">
+                        <f:selectItems value="#{localController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{eventoController.create}" value="#{bundle.CreateEventoSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{eventoController.prepareList}" value="#{bundle.CreateEventoShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.CreateEventoIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

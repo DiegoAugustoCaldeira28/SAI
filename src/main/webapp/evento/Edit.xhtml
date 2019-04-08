@@ -1,0 +1,90 @@
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.-->
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="EventoEditDialog" widgetVar="EventoEditDialog" modal="true" resizable="false"
+                  appendTo="@(body)" header="Editar Evento">
+            <h:form id="EventoEditForm">
+                <p:messages/>
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{eventoController.selected != null}" styleClass="borderNone">
+                        <p:outputLabel value="Nome:" for="nome" />
+                        <p:inputText id="nome" value="#{eventoController.selected.nome}" title="Nome"
+                                     required="true" requiredMessage="Digite nome do curso!" />
+                        <p:outputLabel value="#{bundle.CreateEventoLabel_tipo}" for="tipo" />
+                        <p:selectOneMenu id="tipo" value="#{eventoController.selected.tipo}" required="true" 
+                                         requiredMessage="Selecione o tipo do evento!">
+                            <f:selectItem itemLabel="Selecione" itemValue="" noSelectionOption="true" />
+                            <f:selectItem itemLabel="Minicurso" itemValue="Minicurso" />
+                            <f:selectItem itemLabel="Palestra" itemValue="Palestra" />
+                            <f:selectItem itemLabel="Maratona de Programação" itemValue="Maratona de Programacao" />
+                            <f:selectItem itemLabel="Workshop" itemValue="Workshop" />
+                            <f:selectItem itemLabel="Minicurso Computacional" itemValue="Minicurso Computacional" />
+                            <f:selectItem itemLabel="Mesa Redonda" itemValue="Mesa Redonda" />
+                            <f:selectItem itemLabel="Desafio" itemValue="Desafio" />
+                            <f:selectItem itemLabel="Oficina" itemValue="Oficina" />                                
+                            <f:selectItem itemLabel="Visita Técnica" itemValue="Visita Tecnica" />                
+                            <f:selectItem itemLabel="Atividade 3 Esferas" itemValue="Atividade 3 Esferas" />
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Descrição:" for="descricao" />
+                        <p:inputTextarea rows="4" cols="30" id="descricao" value="#{eventoController.selected.descricao}"
+                                         title="Descrição" />
+                        <p:outputLabel value="Vagas Totais:" for="vagasTotais" />
+                        <p:spinner id="vagasTotais" value="#{eventoController.selected.vagasTotais}" title="Vagas Totais" min="0" />
+                        <p:outputLabel value="Hora de início:" for="horaInicio" />
+                        <p:inputMask id="horaInicio" value="#{eventoController.selected.horaInicio}" title="Hora de início" mask="99:99"  >
+                            <f:convertDateTime type="date" pattern="HH:mm" timeZone="GMT-3"  locale="pt_BR"/>
+                        </p:inputMask>
+                        <p:outputLabel value="Hora de término" for="horaTermino" />
+                        <p:inputMask id="horaTermino" value="#{eventoController.selected.horaTermino}" title="Hora de término" mask="99:99">
+                            <f:convertDateTime type="date" pattern="HH:mm" timeZone="GMT-3"  locale="pt_BR"/>
+                        </p:inputMask>
+                        <p:outputLabel value="Departamento:" for="curso" />
+                        <p:selectOneMenu id="curso" value="#{eventoController.selected.curso}" required="true" 
+                                         requiredMessage="Selecione um departamento responsável!" filter="true">
+                            <f:selectItem itemLabel="Selecione" itemValue=""/>
+                            <f:selectItem itemLabel="SAI" itemValue="SAI" />
+                            <f:selectItem itemLabel="DEPARTAMENTO DE ALIMENTOS" itemValue="DEPARTAMENTO DE ALIMENTOS" />
+                            <f:selectItem itemLabel="DEPARTAMENTO DE ENGENHARIA ELETRÔNICA" itemValue="DEPARTAMENTO DE ENGENHARIA ELETRONICA" />
+                            <f:selectItem itemLabel="DEPARTAMENTO DE ENGENHARIA DE PRODUÇÃO" itemValue="DEPARTAMENTO DE ENGENHARIA DE PRODUCAO" />
+                            <f:selectItem itemLabel="DEPARTAMENTO DE ENGENHARIA MECÁNICA" itemValue="DEPARTAMENTO DE ENGENHARIA MECANICA" />
+                            <f:selectItem itemLabel="DEPARTAMENTO DE ENGENHARIA QUÍMICA" itemValue="DEPARTAMENTO DE ENGENHARIA QUIMICA" />
+                            <f:selectItem itemLabel="DEPARTAMENTO DE ENSINO" itemValue="DEPARTAMENTO DE ENSINO" />
+                            <f:selectItem itemLabel="DEPARTAMENTO DE FÍSICA" itemValue="DEPARTAMENTO DE FISICA" />
+                            <f:selectItem itemLabel="DEPARTAMENTO DE INFORMÁICA" itemValue="DEPARTAMENTO DE INFORMATICA" />
+                        </p:selectOneMenu>                          
+
+                        <p:outputLabel value="Local:" for="idlocal" />
+                        <p:selectOneMenu id="idlocal" value="#{eventoController.selected.idlocal}" 
+                                         required="true" requiredMessage="Selecione um local!" filter="true">
+                            <f:selectItem itemLabel="Selecione" itemValue="" noSelectionOption="true" />
+                            <f:selectItems value="#{localController.itemsAvailableSelectOne}" />
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Valor:" for="custo"/>
+                        <p:spinner id="custo" value="#{eventoController.selected.custo}" stepFactor="0.25"   min="0.00"  placeholder="Digite somente números. Ex: 20 ou 20.50">
+
+                        </p:spinner>
+                        <p:outputLabel value="Carga Horária" for="cargaHoraria" />
+                        <p:spinner id="cargaHoraria" value="#{eventoController.selected.cargaHoraria}" 
+                                   min="0.0" max="30.0" placeholder="Digite em horas" title="Carga horária" stepFactor="0.25"/>
+                        <p:outputLabel value="Tempo de permanência mínima" for="tempo_minimo" />
+                        <p:spinner id="tempo_minimo" value="#{eventoController.selected.tempoMinimo}" 
+                                   min="0" max="240" placeholder="Digite em minutos" title="Tempo de permanência mínima"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{eventoController.update}" value="Salvar" title="Salvar"
+                                     update="display,:EventoFormList:tabela" onsuccess="PF('EventoEditDialog').hide()"/>
+                    <p:commandButton value="Cancelar" onclick="EventoEditDialog.hide()" action="#{eventoController.cancelSelected()}" title="Cancelar"/>
+                </h:panelGroup>
+            </h:form>            
+        </p:dialog>
+    </ui:composition>
+</html>

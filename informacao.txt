@@ -1,0 +1,3 @@
+SELECT COUNT(matricula.idaluno) AS total, matricula.idaluno FROM `matricula`
+GROUP BY matricula.idaluno
+ORDER BY total DESC

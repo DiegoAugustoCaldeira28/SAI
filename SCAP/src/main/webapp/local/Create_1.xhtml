@@ -1,0 +1,47 @@
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.-->
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/templateEvento.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateDataEventoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <div class="box">
+                <h:form class="createForm" rendered="#{localController.usuarioLogado}">
+                    <p:fieldset legend =" Cadastrar Local" toggleable="true" toggleSpeed="500">
+                        <p:messages />
+                        <h:panelGrid class="createGrid" columns="2" styleClass="borderNone">
+
+                            <h:outputLabel value="Nome do local:" for="nomeLocal" />
+                            <p:inputText id="nomeLocal" value="#{localController.selected.nomeLocal}" 
+                                         title="Nome do local" style="width: 200px" onblur="value=value.toUpperCase()"/>                                                                                                                    
+                            <p:outputLabel value=""/>
+                            <p:outputLabel value=""/>                            
+                            <p:outputLabel value=""/>
+                            <p:outputLabel value=""/>                            
+                            <h:outputLabel value="Sala:" for="sala" />
+                            <p:inputText id="sala" value="#{localController.selected.sala}" 
+                                         title="Sala" style="width: 200px" onblur="value=value.toUpperCase()"/>                                                                                                                    
+                            
+                            <p:outputLabel value=""/>
+                            <p:outputLabel value=""/>                            
+                            <br/>
+                            <p:outputLabel value=""/>
+                            
+                            <p:commandButton ajax="false"   action="#{localController.create}" value="Cadastrar"/>
+                        </h:panelGrid>
+                    </p:fieldset>
+                </h:form>
+            </div>            
+        </ui:define>
+    </ui:composition>
+</html>

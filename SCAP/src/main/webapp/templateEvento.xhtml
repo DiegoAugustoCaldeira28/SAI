@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="css/default.css"/>
+        <h:outputStylesheet name="css/cssLayout.css"/>
+        <h:outputStylesheet name="css/cssLayoutT2.css"/>
+    </h:head>
+
+    <h:body>
+        <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+            <h:graphicImage  value="#{resource['img:gif-load.gif']}" library="img" name="gif-load.gif"/>
+        </p:dialog>
+
+        <div id="top">
+
+            <div class="title-template" style="text-align: center!important">SAI 2018</div>
+            <h:form>                                
+                <p:commandButton class="logout" value="Trocar Senha" action="#{usuarioController.editarSenha()}" />                    
+                <p:commandButton class="logout" value="Logout" action="#{usuarioController.logout()}" />                    
+            </h:form>
+        </div>
+        <div>
+            <div id="left">
+                <h:form>
+                    <p:menu toggleable="true" >
+                        <p:submenu label="Participante"  >
+                            <p:menuitem value="Cadastrar" outcome="/aluno/Create_1" target="_blank" icon="ui-icon-circle-plus"/>
+                            <p:menuitem value="Recadastrar" outcome="/aluno/Recadastrar" target="_blank" icon="ui-icon-circle-plus"/>
+                        </p:submenu>
+                        <p:submenu label="Evento">
+                            <p:menuitem value="Cadastrar" outcome="/evento/Create_1"  icon="ui-icon-circle-plus" class="c"/>
+                            <p:menuitem value="Buscar" outcome="/evento/List" icon="ui-icon-circle-zoomout" class="c"/>
+                        </p:submenu>
+                        <p:submenu label="Data do Evento">
+                            <p:menuitem value="Cadastrar" outcome="/dataEvento/Create_1" icon="ui-icon-circle-plus" class="c"/>
+                            <p:menuitem value="Buscar" outcome="/dataEvento/List" icon="ui-icon-circle-zoomout" class="c"/>
+                        </p:submenu>
+                        <p:submenu label="Local">
+                            <p:menuitem value="Cadastrar" outcome="/local/Create_1" icon="ui-icon-circle-plus" class="c"/>
+                            <p:menuitem value="Buscar" outcome="/local/List" icon="ui-icon-circle-zoomout" class="c"/>
+                        </p:submenu>
+                        <p:submenu label="Instrutor">
+                            <p:menuitem value="Cadastrar" outcome="/instrutor/Create_1" icon="ui-icon-circle-plus" class="c"/>
+                            <p:menuitem value="Buscar" outcome="/instrutor/List" icon="ui-icon-circle-zoomout" class="c"/>
+                        </p:submenu>
+                        <p:submenu label="Instrutor para Evento">
+                            <p:menuitem value="Cadastrar" outcome="/eventosInstrutores/Create_1" icon="ui-icon-circle-plus" class="c"/>
+                            <p:menuitem value="Buscar" outcome="/eventosInstrutores/List" icon="ui-icon-circle-zoomout" class="c"/>
+                        </p:submenu>
+                        <p:submenu label="Matricula">
+                            <p:menuitem value="Buscar" outcome="/matricula/Create_1" icon="ui-icon-circle-zoomout" class="c"/>
+                        </p:submenu>                        
+                    </p:menu>
+                </h:form>
+            </div>
+            <div id="content" class="left_content">
+                <ui:insert name="body"></ui:insert>
+            </div>
+        </div>
+    </h:body>
+
+</html>

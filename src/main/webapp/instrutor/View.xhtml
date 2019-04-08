@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewInstrutorTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewInstrutorLabel_idinstrutor}"/>
+                    <h:outputText value="#{instrutorController.selected.idinstrutor}" title="#{bundle.ViewInstrutorTitle_idinstrutor}"/>
+                    <h:outputText value="#{bundle.ViewInstrutorLabel_nome}"/>
+                    <h:outputText value="#{instrutorController.selected.nome}" title="#{bundle.ViewInstrutorTitle_nome}"/>
+                    <h:outputText value="#{bundle.ViewInstrutorLabel_tipo}"/>
+                    <h:outputText value="#{instrutorController.selected.tipo}" title="#{bundle.ViewInstrutorTitle_tipo}"/>
+                    <h:outputText value="#{bundle.ViewInstrutorLabel_rg}"/>
+                    <h:outputText value="#{instrutorController.selected.rg}" title="#{bundle.ViewInstrutorTitle_rg}"/>
+                    <h:outputText value="#{bundle.ViewInstrutorLabel_orgaoExpeditor}"/>
+                    <h:outputText value="#{instrutorController.selected.orgaoExpeditor}" title="#{bundle.ViewInstrutorTitle_orgaoExpeditor}"/>
+                    <h:outputText value="#{bundle.ViewInstrutorLabel_cpf}"/>
+                    <h:outputText value="#{instrutorController.selected.cpf}" title="#{bundle.ViewInstrutorTitle_cpf}"/>
+                    <h:outputText value="#{bundle.ViewInstrutorLabel_senha}"/>
+                    <h:outputText value="#{instrutorController.selected.senha}" title="#{bundle.ViewInstrutorTitle_senha}"/>
+                    <h:outputText value="#{bundle.ViewInstrutorLabel_administrador}"/>
+                    <h:outputText value="#{instrutorController.selected.administrador}" title="#{bundle.ViewInstrutorTitle_administrador}"/>
+                    <h:outputText value="#{bundle.ViewInstrutorLabel_email}"/>
+                    <h:outputText value="#{instrutorController.selected.email}" title="#{bundle.ViewInstrutorTitle_email}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{instrutorController.destroyAndView}" value="#{bundle.ViewInstrutorDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundle.ViewInstrutorEditLink}"/>
+                <br />
+                <h:commandLink action="#{instrutorController.prepareCreate}" value="#{bundle.ViewInstrutorCreateLink}" />
+                <br />
+                <h:commandLink action="#{instrutorController.prepareList}" value="#{bundle.ViewInstrutorShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ViewInstrutorIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

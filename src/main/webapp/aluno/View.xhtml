@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewAlunoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewAlunoLabel_idaluno}"/>
+                    <h:outputText value="#{alunoController.selected.idaluno}" title="#{bundle.ViewAlunoTitle_idaluno}"/>
+                    <h:outputText value="#{bundle.ViewAlunoLabel_nome}"/>
+                    <h:outputText value="#{alunoController.selected.nome}" title="#{bundle.ViewAlunoTitle_nome}"/>
+                    <h:outputText value="#{bundle.ViewAlunoLabel_ra}"/>
+                    <h:outputText value="#{alunoController.selected.ra}" title="#{bundle.ViewAlunoTitle_ra}"/>
+                    <h:outputText value="#{bundle.ViewAlunoLabel_cpf}"/>
+                    <h:outputText value="#{alunoController.selected.cpf}" title="#{bundle.ViewAlunoTitle_cpf}"/>
+                    <h:outputText value="#{bundle.ViewAlunoLabel_rg}"/>
+                    <h:outputText value="#{alunoController.selected.rg}" title="#{bundle.ViewAlunoTitle_rg}"/>
+                    <h:outputText value="#{bundle.ViewAlunoLabel_orgaoExpeditor}"/>
+                    <h:outputText value="#{alunoController.selected.orgaoExpeditor}" title="#{bundle.ViewAlunoTitle_orgaoExpeditor}"/>
+                    <h:outputText value="#{bundle.ViewAlunoLabel_externo}"/>
+                    <h:outputText value="#{alunoController.selected.externo}" title="#{bundle.ViewAlunoTitle_externo}"/>
+                    <h:outputText value="#{bundle.ViewAlunoLabel_curso}"/>
+                    <h:outputText value="#{alunoController.selected.curso}" title="#{bundle.ViewAlunoTitle_curso}"/>
+                    <h:outputText value="#{bundle.ViewAlunoLabel_instituicao}"/>
+                    <h:outputText value="#{alunoController.selected.instituicao}" title="#{bundle.ViewAlunoTitle_instituicao}"/>
+                    <h:outputText value="#{bundle.ViewAlunoLabel_email}"/>
+                    <h:outputText value="#{alunoController.selected.email}" title="#{bundle.ViewAlunoTitle_email}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{alunoController.destroyAndView}" value="#{bundle.ViewAlunoDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundle.ViewAlunoEditLink}"/>
+                <br />
+                <h:commandLink action="#{alunoController.prepareCreate}" value="#{bundle.ViewAlunoCreateLink}" />
+                <br />
+                <h:commandLink action="#{alunoController.prepareList}" value="#{bundle.ViewAlunoShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ViewAlunoIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

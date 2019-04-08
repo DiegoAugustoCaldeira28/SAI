@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewDataEventoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewDataEventoLabel_iddataEvento}"/>
+                    <h:outputText value="#{dataEventoController.selected.iddataEvento}" title="#{bundle.ViewDataEventoTitle_iddataEvento}"/>
+                    <h:outputText value="#{bundle.ViewDataEventoLabel_data}"/>
+                    <h:outputText value="#{dataEventoController.selected.data}" title="#{bundle.ViewDataEventoTitle_data}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                    <h:outputText value="#{bundle.ViewDataEventoLabel_aberto}"/>
+                    <h:outputText value="#{dataEventoController.selected.aberto}" title="#{bundle.ViewDataEventoTitle_aberto}"/>
+                    <h:outputText value="#{bundle.ViewDataEventoLabel_horaAbertura}"/>
+                    <h:outputText value="#{dataEventoController.selected.horaAbertura}" title="#{bundle.ViewDataEventoTitle_horaAbertura}">
+                        <f:convertDateTime pattern="HH:mm:ss" />
+                    </h:outputText>
+                    <h:outputText value="#{bundle.ViewDataEventoLabel_horaFechamento}"/>
+                    <h:outputText value="#{dataEventoController.selected.horaFechamento}" title="#{bundle.ViewDataEventoTitle_horaFechamento}">
+                        <f:convertDateTime pattern="HH:mm:ss" />
+                    </h:outputText>
+                    <h:outputText value="#{bundle.ViewDataEventoLabel_idevento}"/>
+                    <h:outputText value="#{dataEventoController.selected.idevento}" title="#{bundle.ViewDataEventoTitle_idevento}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{dataEventoController.destroyAndView}" value="#{bundle.ViewDataEventoDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundle.ViewDataEventoEditLink}"/>
+                <br />
+                <h:commandLink action="#{dataEventoController.prepareCreate}" value="#{bundle.ViewDataEventoCreateLink}" />
+                <br />
+                <h:commandLink action="#{dataEventoController.prepareList}" value="#{bundle.ViewDataEventoShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ViewDataEventoIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>
